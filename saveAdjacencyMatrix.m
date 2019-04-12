@@ -1,9 +1,3 @@
-%%% Questions %%%
-% How to compare orig and subsampled?
-% Subsampled adj matrix sparse but same size?
-% What should log-log plots look like?
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Clint Olsen
 % ECEN 5322: Higher-Dimensional Datasets
@@ -13,20 +7,20 @@
 % datasets in face2faceData and coPresenceData vectors
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Lyon Hospital and 2009 French Society for Hospital Hygiene Conf. Data
-face2faceData = ["tij_LH10.dat", "tij_SFHH.dat"];
-coPresenceData = ["tij_pres_LH10.dat", "tij_pres_SFHH.dat"];
-metaData = ["sorted_indices_LH10.mat", "sorted_indices_SFHH.mat"];
-fAdjOutput = ["f2f_adj_LH10.mat", "f2f_adj_SFHH.mat"];
-cAdjOutput = ["cp_adj_LH10.mat", "cp_adj_SFHH.mat"];
-
-% Loop through each data set (face to face and co-presence)
-for set=1:size(face2faceData,2)
-    % Load in dataset and metadata set with indices for re-indexing based on 
-    % number of nodes in network.
-    f2fDataSet = load(face2faceData(set));
-    cpDataSet = load(coPresenceData(set));
-    sortedIndices = importdata(metaData(set));
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% - saveAdjacencyMatrix.m: Saves a face-to-face and co-presence
+% adjacency matrix to the current directory
+%
+% - Inputs: face to face file to load (.dat), co-presence file (.dat)
+% sorted index file from meta data (.mat), f2f adj. matrix file name
+% to save to (.mat), and co presence file name to save to (.mat).
+%
+% - Outputs: Saved files in current directory
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function saveAdjacencyMatrix(f2fFile, cpFile, sortedIndicesFile, f2fSaveFileName, cpSaveFileName)
+    f2fDataSet = load(f2fFile);
+    cpDataSet = load(cpFile);
+    sortedIndices = importdata(sortedIndicesFile);
 
     for i = 2:3 %Re-index column 2 and 3 (i and j) between 1 and # of nodes
         for j=1:size(f2fDataSet,1)
@@ -59,45 +53,8 @@ for set=1:size(face2faceData,2)
     
     % Save adjacency matrices to current directory
     data = fAdjacencyMatrix;
-    save(fAdjOutput(set), 'data')
+    save(f2fSaveFileName, 'data')
     data = cAdjacencyMatrix;
-    save(cAdjOutput(set), 'data')
+    save(cpSaveFileName, 'data')
+
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-% 
-% sortedTest = sortrows(test,2);
-% uniqueValues = 1;
-% prev = 0;
-% agg = zeros(size(test,1)*2,1);
-% agg = sortedTest(1,2);
-% agg(1:size(test,1),1) = sortedTest(:,2);
-% agg(size(test,1)+1:size(test,1)*2,1) = sortedTest(:,3);
-% agg = sort(agg);
-% unique = zeros(81,1);
-% 
-% % Reindex according to indices given
-% prev = agg(1,1);
-% for i=1:size(test,1)*2
-%     current = agg(i,1);
-%     if(current ~= prev)
-%         unique(uniqueValues,1) = prev;
-%         prev = current;
-%         uniqueValues = uniqueValues + 1;
-%     end
-% end
