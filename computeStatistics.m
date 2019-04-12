@@ -12,7 +12,7 @@
 % - Outputs: Displays Table of stat values, vector of degrees,
 % and vector of clusteringCoeffs
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function [degreeDistribution, clusteringCoefficient] = computeStatistics(adjacencyMatrix)
+function [graphSize, numEdges, volume, density, degreeDistribution, clusteringCoefficient, averageDegree, avgCC] = computeStatistics(adjacencyMatrix)
 
     % Statistics to gather:
     graphSize = 0;
