@@ -48,7 +48,7 @@ function As = edgeSampling(A, p, k)
     if p == "weighted"
         edgeWeights = edgeWeights ./ sum(edgeWeights);
         for i=1:k
-            Es(i) = randsample(1:size(edgeWeights, 2), 1, true, edgeWeights)
+            Es(i) = randsample(1:size(edgeWeights, 2), 1, true, edgeWeights);
             edgeWeights(Es(i)) = 0; % Alters to without replacement
             
             % Place selected Edges and Vertices into Adj. Matrix

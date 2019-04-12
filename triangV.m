@@ -27,5 +27,5 @@ function numTriang = triangV(A, v)
         end
     end
     
-    numTriang = (numTriang / 2);              
+    numTriang = floor(numTriang / 2);              
 end
