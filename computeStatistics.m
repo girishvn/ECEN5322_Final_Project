@@ -12,7 +12,7 @@
 % - Outputs: Displays Table of stat values, vector of degrees,
 % and vector of clusteringCoeffs
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function [graphSize, numEdges, volume, density, degreeDistribution, clusteringCoefficient, averageDegree, avgCC] = computeStatistics(adjacencyMatrix)
+function [graphSize, numEdges, volume, density, degreeDistribution, clusteringCoefficient, averageDegree, avgCC] = computeStatistics(adjacencyMatrix, sampledMtx)
 
     % Statistics to gather:
     graphSize = 0;
@@ -24,8 +24,12 @@ function [graphSize, numEdges, volume, density, degreeDistribution, clusteringCo
     clusteringCoefficient = zeros(1,size(adjacencyMatrix,1));
     avgCC = 0;
     
-    % Size
-    graphSize = size(adjacencyMatrix,1);
+    if sampledMtx
+        deg = sum(adjacencyMatrix);
+        graphSize = sum(deg > 0); % grab all connected vertices
+    else
+        graphSize = size(adjacencyMatrix,1);
+    end
     
     %Total number of edges
     numEdges = size(find(triu(adjacencyMatrix) > 0), 1);
@@ -58,5 +62,5 @@ function [graphSize, numEdges, volume, density, degreeDistribution, clusteringCo
     avgCC = sum(clusteringCoefficient) / graphSize;
     
     % Table output of data
-    table(graphSize, numEdges, volume, density, averageDegree, avgCC)
+    %table(graphSize, numEdges, volume, density, averageDegree, avgCC)
 end
