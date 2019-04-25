@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Girish Narayanswamy
 % ECEN 5322: Higher-Dimensional Datasets
-% Final Project: Assignment 7 - 9
+% Final Project: Assignment 10
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -9,24 +9,27 @@
 % for degree density and clustering coefficient 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-f2f_A_files = ["A_InVS13.mat", "A_InVS15.mat", "A_LH10.mat", "A_LyonSchool.mat", "A_SFHH.mat", "A_Thiers13.mat"];
+cp_A_files = ["A_pres_InVS13.mat", "A_pres_InVS15.mat", "A_pres_LH10.mat", "A_pres_LyonSchool.mat", "A_pres_SFHH.mat", "A_pres_Thiers13.mat"];
 dataSets = ["InVS13", "InVS15", "LH10", "LyonSchool", "SFHH", "Thiers13"];
 
-for i = 1:length(f2f_A_files) % iterate through data sets
+for i = 1:length(cp_A_files) % iterate through data sets
     
     % init 2 figures per data set
     figure(2*i - 1);
-    sgtitle(strcat("Distribution of Recovered Nodes (100 Sims.) for f2f ", dataSets(i)));
+    sgtitle(strcat("Distribution of Recovered Nodes (100 Sims.) for CP ", dataSets(i)));
     
     figure(2*i);
-    sgtitle(strcat("Stats. for Epidemics with nr > 20% (100 Sims.) for f2f ", dataSets(i)));
+    sgtitle(strcat("Stats. for Epidemics with nr > 20% (100 Sims.) for CP ", dataSets(i)));
     
     %Original, before sampling
     % load in f2f A
-    A =  load(f2f_A_files(i));
+    A =  load(cp_A_files(i));
     A = A.Z;
     
     [m,n] = size(A);
+    
+    numEdges = size(find(triu(A) > 0), 1); % count number of edges
+    A = metropolisHastingsRW(A,numEdges*0.8); % run metro-hast RW retaining 80% edges to sample graph
     
     B = (4e-4); % beta values
     k = [2, 4, 6, 8, 10]; % values of k / p0

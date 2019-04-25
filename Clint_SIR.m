@@ -18,7 +18,7 @@ function [numRecovered, infectedDistribution, susceptibleDistribution, recovered
     % Time step
     % Determine so probability is normalized between 0 and 1 for
     med = median(A(find(A~=0)));
-    dt = (1/Beta)*(1/med)*.001;
+    dt = (1/Beta)*(1/med)*0.001;
 
     %Generate random seedm for 1st node to be infected
     numInfected = 1;
